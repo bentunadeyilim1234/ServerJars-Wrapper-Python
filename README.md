@@ -10,9 +10,9 @@
     A simple yet flexible and fast Python3 wrapper for ServerJars REST API.
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/bentunadeyilim1234/ServerJars-Wrapper-Python/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/bentunadeyilim1234/ServerJars-Wrapper-Python/issues">Request Feature</a>
   </p>
 </div>
 
