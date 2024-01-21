@@ -53,7 +53,7 @@ paper.Download("latest")
 <!-- LICENSE -->
 ## License
 
-Distributed under the GNU 3 Public License. See `LICENSE` for more information.
+Distributed under the GPL 3.0 . See `LICENSE` for more information.
 
 <!-- CONTACT
 ## Contact
