@@ -8,11 +8,11 @@ Made by bentunadeyilim1234
 
 url = "https://serverjars.com/api/"
 endpoints = {
-  "downloadJars": "fetchJar/{category}/{type}/{version}",
-  "latestDetails": "fetchLatest/{category}/{type}",
-  "allDetails": "fetchAll/{category}/{type}/{max}",
-  "jarTypes": "fetchTypes/{category}",
-  "jarDetails": "fetchDetails/{category}/{type}/{version}"
+  "downloadJars": "fetchJar/{type}/{category}/{version}",
+  "latestDetails": "fetchLatest/{type}/{category}",
+  "allDetails": "fetchAll/{type}/{category}/{max}",
+  "jarTypes": "fetchTypes/{type}",
+  "jarDetails": "fetchDetails/{type}/{category}/{version}"
 }
 
 def _endpoint(*args, **kwargs):
@@ -30,31 +30,30 @@ def _api(*args, **kwargs):
     return request["response"]
   raise SystemExit("There was an error while processing your request"+(" | "+args[1] if args[1] != "" else "."))
 
-def GetAvailableTypes(category=""):
-  if category:
-    return _api("jarTypes", "Could not get available types", category=category)[category]
-  return _api("jarTypes", "Could not get available types", category=category)
+def GetAvailableTypes(type=""):
+  if type:
+    return _api("jarTypes", "Could not get available types", type=type)[type]
+  return _api("jarTypes", "Could not get available types", type=type)
 
-_availablecategories = GetAvailableTypes()
+_availabletypes = GetAvailableTypes()
 
 def GetAvailableCategories():
-  return [x for x in _availablecategories]
+  return [x for x in _availabletypes]
 
-def _findcategorybytype(type: str):
-  typeslist = _availablecategories
-  for category in typeslist:
-    if type in typeslist[category]:
-      return category
+def _findtypebycategory(category: str):
+  for type in _availabletypes:
+    if category in _availabletypes[type]:
+      return type
   return None
 
-class _type:
-  def __init__(self, category: str, type: str):
-    self.category = (_findcategorybytype(type) if category == "" else category)
-    self.type = type
-    if not self.category:
-      raise SystemExit("Could not find category of type: '{}'".format(self.type))
-    if not type in _availablecategories[self.category]:
-      raise SystemExit("Could not find type '{}' on category: '{}'".format(self.type, self.category))
+class _category:
+  def __init__(self, type: str, category: str):
+    self.type = (_findtypebycategory(category) if type == "" else type)
+    self.category = category
+    if not self.type:
+      raise SystemExit("Could not find type of category: '{}'".format(self.category))
+    if not category in _availabletypes[self.type]:
+      raise SystemExit("Could not find category '{}' on type: '{}'".format(self.category, self.type))
   def GetVersions(self, max: int=None):
     max = max or ""
     return _api("allDetails", "Could not get versions", type=self.type, category=self.category, max=str(max))
@@ -83,20 +82,20 @@ class _type:
     self.Download(latestVersion, fileName)
 
 class Client:
-  def __init__(self, category: str=None):
-    self.category = category
-    if category and category not in _availablecategories:
-      raise SystemExit("Could not find category: '{}'".format(category))
-  def Type(self, type: str):
-    category = self.category or ""
-    return _type(category, type)
-  def GetVersions(self, type: str, max: int=None):
-    return self.Type(type).GetVersions(max)
-  def GetDetails(self, type: str, version: str):
-    return self.Type(type).GetDetails(version)
-  def GetLatestDetails(self, type: str):
-    return self.Type(type).GetLatestDetails()
-  def Download(self, type: str, version: str=None, fileName: str=None):
-    self.Type(type).Download(version, fileName)
-  def DownloadLatest(self, type: str, fileName: str=None):
-    self.Type(type).DownloadLatest(fileName)
+  def __init__(self, type: str=None):
+    if type and type not in _availabletypes:
+      raise SystemExit("Could not find type: '{}'".format(type))
+    self.type = type
+  def Category(self, category: str):
+    type = self.type or ""
+    return _category(type, category)
+  def GetVersions(self, category: str, max: int=None):
+    return self.Category(category).GetVersions(max)
+  def GetDetails(self, category: str, version: str):
+    return self.Category(category).GetDetails(version)
+  def GetLatestDetails(self, category: str):
+    return self.Category(category).GetLatestDetails()
+  def Download(self, category: str, version: str=None, fileName: str=None):
+    self.Category(category).Download(version, fileName)
+  def DownloadLatest(self, category: str, fileName: str=None):
+    self.Category(category).DownloadLatest(fileName)
