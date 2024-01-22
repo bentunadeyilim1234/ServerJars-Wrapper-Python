@@ -25,8 +25,8 @@ import serverjars as sj
 #Initalize Client
 client = sj.Client()
 
-#Initalize Type (Optional)
-paper = client.Type("paper")
+#Initalize Category (Optional)
+paper = client.Category("paper")
 
 #List Versions (Optional max)
 client.GetVersions("paper")
