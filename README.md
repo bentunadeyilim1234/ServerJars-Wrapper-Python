@@ -7,7 +7,6 @@
   <h3 align="center">ServerJars Python Wrapper</h3>
 
   <p align="center">
-    A simple yet flexible and fast Python3 wrapper for ServerJars REST API.
     <br />
     <br />
     <a href="https://github.com/bentunadeyilim1234/ServerJars-Wrapper-Python/issues">Report Bug</a>
